@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'gym.recipe_app.apps.RecipeAppConfig',
     'gym.workout_app.apps.WorkoutAppConfig',
 ]
-#mit
+
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -81,16 +81,12 @@ WSGI_APPLICATION = 'gym.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gym-db',
-        'USER': 'postgres',
-        'PASSWORD': '1123QwER',
-        'HOST': '127.0.0.1',
+        'NAME': 'd12f2089turjrj',
+        'USER': 'oirhwloqftkuhi',
+        'PASSWORD': '589be1495fd6003b49e2f1aaade5f2edb52a1d074424c1f0c86b4c63d9954ad1',
+        'HOST': 'ec2-52-18-116-67.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
-        'TEST': {
-            'NAME': 'test_gym-db',
-            'USER': 'test_postgres',
-            'PASSWORD': '1123QwER',
-        }
+
     }
 }
 
