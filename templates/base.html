@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gym site</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/7f59fdaec5.js" crossorigin="anonymous"></script>
+    <script src="{% static 'scripts/script.js' %}" defer></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+</head>
+
+<body>
+<header>
+    <nav class="navbar" style="width: 100%">
+        <div class="brand-name"><a href="{% url 'index' %}">Pro<span>Athlete</span>Corner</a></div>
+        <a href="#" class="toggle-button active">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </a>
+        <div class="navbar-links" id="navigation">
+            <ul>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'trainers' %}" class="navbar-btn">Coaches</a></li>
+                    <li><a href="{% url 'workout list' %}" class="navbar-btn">Workouts</a></li>
+                    <li><a href="{% url 'list recipe' %}" class="navbar-btn">Recipes</a></li>
+                    {% if user.has_profile %}
+                        <li><a href="{% url 'profile page' user.id %}" class="navbar-btn">Profile</a></li>
+                    {% else %}
+                        <li><a href="{% url 'update profile' user.id %}" class="navbar-btn">Profile</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}" class="navbar-btn">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'register' %}" class="navbar-btn">Register</a></li>
+                    <li><a href="{% url 'login' %}" class="navbar-btn">Login</a></li>
+
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<main>
+
+    {% block content %}
+
+    {% endblock %}
+
+</main>
+
+
+<footer>
+
+</footer>
+</body>
+</html>

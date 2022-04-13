@@ -1,0 +1,9 @@
+footer a {
+    color: white;
+    text-decoration-color: white;
+    text-decoration-line: none;
+    font-size: 20px;
+}
+footer .footer-links ul li {
+    padding: 4px;
+}
