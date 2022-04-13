@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-c3+qj54!4y*%_du%c77tgew)ss%(r@f&6-mjhn8hu6(s9&tgmn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', " gym-corner.herokuapp.com" ]
+ALLOWED_HOSTS = ['127.0.0.1', "gym-corner.herokuapp.com"]
 
 
 # Application definition
