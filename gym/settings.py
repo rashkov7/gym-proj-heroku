@@ -19,13 +19,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c3+qj54!4y*%_du%c77tgew)ss%(r@f&6-mjhn8hu6(s9&tgmn'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 APP_ENVIRONMENT = os.getenv('APP_ENVIRONMENT')
-# print(type())
-ALLOWED_HOSTS = str(os.getenv('ALLOWED_HOSTS')).split()
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split()
 
 # Application definition
 INSTALLED_APPS = [
@@ -92,14 +92,12 @@ WSGI_APPLICATION = 'gym.wsgi.application'
 if APP_ENVIRONMENT == "Production":
     DATABASES = {
         'default': {
-
             'HOST': os.getenv('DB_HOST'),
             'PORT': os.getenv('DB_PORT', '5432'),
-            'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.getenv('DB_NAME'),
             'USER': os.getenv('DB_USER'),
             'PASSWORD': os.getenv('DB_PASSWORD'),
-
+            'ENGINE': 'django.db.backends.postgresql',
         }
     }
 else:
@@ -181,10 +179,10 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
 # SENDING MAIL STUFF
-EMAIL_HOST = 'smtp.mail.bg'
-EMAIL_PORT = '993'
-EMAIL_HOST_USER = 'sobies@mail.bg'
-EMAIL_HOST_PASSWORD = '*******'
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv('HOST_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('HOST_EMAIL_PASS')
 
