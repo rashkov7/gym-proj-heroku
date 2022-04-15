@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView, ListView, DetailView, DeleteView
 
 from gym.helpers.mixins import UserAuthorizedMixin
-from gym.profile_app.forms import ProfileEditForm, ProfilePhotoUpdate
+from gym.profile_app.forms import ProfileUpdateForm
 from gym.profile_app.models import ProfileModel
 from gym.recipe_app.models import RecipeModel
 from gym.workout_app.models import WorkoutModel
@@ -33,16 +33,13 @@ class ProfilePageView(LoginRequiredMixin, DetailView):
         return context
 
 
-""" Update profile view. We manually added user to the form"""
-
-
-class UpdateProfileView(UserAuthorizedMixin, UpdateView):
+# BASE UPDATE VIEW - update profile separately( photo / context)
+class UpdateProfileBaseView(UserAuthorizedMixin, UpdateView):
     permission_required = 'profile_app.change_profilemodel'
 
-    template_name = 'profile/profile-update.html'
     model = ProfileModel
-    form_class = ProfileEditForm
-    success_url = reverse_lazy('index')
+    template_name = None
+    form_class = None
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -53,14 +50,18 @@ class UpdateProfileView(UserAuthorizedMixin, UpdateView):
         self.object = form.save(commit=True)
         return super().form_valid(form)
 
-
-class UpdateProfilePhotoView(UpdateProfileView):
-    template_name = 'profile/profile-update.html'
-    model = ProfileModel
-    form_class = ProfilePhotoUpdate
-
     def get_success_url(self):
         return reverse_lazy('profile page', kwargs={'pk': self.object.pk})
+
+
+class UpdateProfileView(UpdateProfileBaseView):
+    template_name = 'profile/profile-update.html'
+    form_class = ProfileUpdateForm
+
+
+class UpdateProfilePhotoView(UpdateProfileBaseView):
+    template_name = 'profile/profile-update-photo.html'
+    fields = ('photo',)
 
 
 class DeleteProfileView(UserAuthorizedMixin, DeleteView):
@@ -71,9 +72,7 @@ class DeleteProfileView(UserAuthorizedMixin, DeleteView):
     success_url = reverse_lazy('index')
 
 
-""" Customer, workouts View. Queryset with all his sign workouts. """
-
-
+# Customer, workouts View. Queryset with all his sign workouts.
 class MyWorkoutView(UserAuthorizedMixin, ListView):
     permission_required = 'profile_app.change_profilemodel'
 
