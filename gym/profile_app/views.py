@@ -80,22 +80,9 @@ class MyWorkoutView(UserAuthorizedMixin, ListView):
     model = WorkoutModel
 
     def get_queryset(self):
+        user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+        queryset = self.model._default_manager.filter(participant=user)
 
-        if self.queryset is not None:
-            queryset = self.queryset
-            if isinstance(queryset, QuerySet):
-                queryset = queryset.all()
-        elif self.model is not None:
-            user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-            queryset = self.model._default_manager.filter(participant=user)
-        else:
-            raise ImproperlyConfigured(
-                "%(cls)s is missing a QuerySet. Define "
-                "%(cls)s.model, %(cls)s.queryset, or override "
-                "%(cls)s.get_queryset()." % {
-                    'cls': self.__class__.__name__
-                }
-            )
         ordering = self.get_ordering()
         if ordering:
             if isinstance(ordering, str):
@@ -114,22 +101,9 @@ class MyRecipeView(UserAuthorizedMixin, ListView):
     model = RecipeModel
 
     def get_queryset(self):
+        user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
+        queryset = self.model._default_manager.filter(favorites=user)
 
-        if self.queryset is not None:
-            queryset = self.queryset
-            if isinstance(queryset, QuerySet):
-                queryset = queryset.all()
-        elif self.model is not None:
-            user = get_object_or_404(UserModel, pk=self.kwargs['pk'])
-            queryset = self.model._default_manager.filter(favorites=user)
-        else:
-            raise ImproperlyConfigured(
-                "%(cls)s is missing a QuerySet. Define "
-                "%(cls)s.model, %(cls)s.queryset, or override "
-                "%(cls)s.get_queryset()." % {
-                    'cls': self.__class__.__name__
-                }
-            )
         ordering = self.get_ordering()
         if ordering:
             if isinstance(ordering, str):
